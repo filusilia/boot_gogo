@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="log.path" value="/home/hxht/logs/" />
-    <property name="log.file" value="dts" />
+    <property name="log.path" value="/home/logs/" />
+    <property name="log.file" value="nsgogo" />
     <!--<property name="log.path" value="/Users/alice/Downloads/"/>-->
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -57,34 +57,6 @@
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{0}-%line - %msg%n</pattern>
-            <charset class="java.nio.charset.Charset">UTF-8</charset>
-        </encoder>
-    </appender>
-
-    <!--上传错误日志记录-->
-    <appender name="uploadAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}${log.file}_upload.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}history/upload-%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
-            <charset class="java.nio.charset.Charset">UTF-8</charset>
-        </encoder>
-    </appender>
-
-    <!--定时上传专用日志-->
-    <appender name="taskUploadAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}${log.file}_task_upload.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}history/task_upload-%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
             <charset class="java.nio.charset.Charset">UTF-8</charset>
         </encoder>
     </appender>
