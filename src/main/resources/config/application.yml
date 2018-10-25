@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /nsgogo
+
+spring:
+  profiles:
+    active: dev
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML
+    servlet:
+      content-type: text/html
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: [classpath:/static/]
+
+mybatis:
+  mapper-locations: classpath:/static/
+mapper:
+  mappers: tk.mybatis.mapper.common.Mapper
+  not-empty: false
+  identity: MYSQL

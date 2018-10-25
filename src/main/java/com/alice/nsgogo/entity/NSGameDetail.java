@@ -11,7 +11,8 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "ns_game")
+@Table(name = "ns_game_detail")
 @Data
 public class NSGameDetail {
+
 }
