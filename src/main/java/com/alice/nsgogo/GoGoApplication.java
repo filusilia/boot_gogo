@@ -35,14 +35,12 @@ public class GoGoApplication extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         SpringApplication.run(GoGoApplication.class, args);
         log.info("NS GoGo！");
         log.info("Power by Aozaki ! ");
         log.info("\t\tVersion : {} \t", Constants.VER);
     }
 
-    //没有这个则druid无法监控sql
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource druidDataSource() {
