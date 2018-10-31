@@ -16,7 +16,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class UserInfoService implements UserDetailsService {
+public class UserInfoServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserMapper userMapper;

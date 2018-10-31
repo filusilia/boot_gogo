@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER")
                 .build();
         manager.createUser(user);
-        return new UserInfoService();
+        return new UserInfoServiceImpl();
     }
 
     @Autowired

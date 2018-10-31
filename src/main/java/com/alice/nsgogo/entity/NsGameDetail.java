@@ -1,14 +1,9 @@
 package com.alice.nsgogo.entity;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.Data;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Aozaki on 2018/10/25.
@@ -31,7 +26,6 @@ public class NsGameDetail implements Serializable {
     /**
      * 游戏原名称
      */
-    @NotEmpty
     @Column(name = "name", columnDefinition = " varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
     private String name;
 
@@ -56,8 +50,8 @@ public class NsGameDetail implements Serializable {
     /**
      * 提取人
      */
-    @Column(name = "group", columnDefinition = "varchar(100) CHARACTER SET utf8 DEFAULT '' COMMENT '提取人'")
-    private String group;
+    @Column(name = "dump_group", columnDefinition = "varchar(100) CHARACTER SET utf8 DEFAULT '' COMMENT '提取人'")
+    private String dumpGroup;
 
     /**
      * 镜像大小（GB）
@@ -92,7 +86,6 @@ public class NsGameDetail implements Serializable {
     /**
      * 发布名称
      */
-    @NotEmpty
     @Column(name = "release_name", columnDefinition = "varchar(255) CHARACTER SET utf8 DEFAULT '' COMMENT '发布名称'")
     private String release_name;
 

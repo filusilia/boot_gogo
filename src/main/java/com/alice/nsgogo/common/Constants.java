@@ -9,8 +9,8 @@ import org.springframework.context.annotation.PropertySource;
  * @version 1.0
  * @since 1.0
  */
+@PropertySource(value = {"classpath:project.properties"}, encoding = "UTF-8")
 @Configuration
-@PropertySource({"classpath:project.properties"})
 public class Constants {
     public static String VER;
     public static String PROJECT_NAME;
@@ -19,8 +19,9 @@ public class Constants {
     private void setVER(String VER) {
         Constants.VER = VER;
     }
+
     @Value(value = "${project.name}")
     private static void setProjectName(String projectName) {
-        PROJECT_NAME = projectName;
+        Constants.PROJECT_NAME = projectName;
     }
 }

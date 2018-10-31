@@ -31,6 +31,9 @@ public class GoGoApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        log.info("TOMCAT {}",Constants.PROJECT_NAME);
+        log.info("Power by Aozaki ! ");
+        log.info("\t\tVersion : {} \t", Constants.VER);
         return application.sources(GoGoApplication.class);
     }
 

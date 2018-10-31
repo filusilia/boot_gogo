@@ -7,6 +7,9 @@ ns游戏搜索下载
 jpa进行数据库同步
 tk.mybatis进行数据库操作
 
+* idea控制台乱码解决方案：
+    1. idea->help->edit custom vm option ,添加`-Dfile.encoding=UTF-8`
+    2. tomcat->vm option ,添加`-Dfile.encoding=UTF-8`
 * thymeleafsecurity5为了安全需要给密码添加加密方式,否则会报
   `java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"`
 * jpa需要添加
