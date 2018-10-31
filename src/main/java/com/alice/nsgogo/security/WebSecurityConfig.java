@@ -1,13 +1,16 @@
 package com.alice.nsgogo.security;
 
+import com.alice.nsgogo.security.handler.AuthenticationAccessDeniedHandler;
 import com.alice.nsgogo.security.handler.CustomAuthenticationFailureHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -16,15 +19,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 /**
- * @author Aozaki on 2018/3/27 0027.
+ * @author alice on 2018/3/27 0027.
  * @version 1.0
  * @since 1.0
  */
 @EnableWebSecurity(debug = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
+
+    @Autowired
+    public WebSecurityConfig(CustomAuthenticationFailureHandler customAuthenticationFailureHandler,
+                             MyFilterSecurityMetadataSource metadataSource,
+                             MyAccessDecisionManager decisionManager, AuthenticationAccessDeniedHandler deniedHandler) {
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+        this.metadataSource = metadataSource;
+        this.decisionManager = decisionManager;
+        this.deniedHandler = deniedHandler;
+    }
 
     /**
      * Allows modifying and accessing the {@link UserDetailsService} from
@@ -32,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * {@link org.springframework.context.ApplicationContext}. Developers should override this method when changing
      * the instance of {@link #userDetailsServiceBean()}.
      *
-     * @return
+     * @return UserDetailsService
      */
     @Bean
     public UserDetailsService userDetailsService() {
@@ -45,8 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new UserInfoServiceImpl();
     }
 
-    @Autowired
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final MyFilterSecurityMetadataSource metadataSource;
+    private final MyAccessDecisionManager decisionManager;
+    private final AuthenticationAccessDeniedHandler deniedHandler;
 
     /**
      * Override this method to configure the {@link HttpSecurity}. Typically subclasses
@@ -64,6 +80,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(metadataSource);
+                        o.setAccessDecisionManager(decisionManager);
+                        return o;
+                    }
+                })
 //                .antMatchers(HttpMethod.GET,"/assets/js/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .antMatchers("/assets/**").permitAll()
@@ -73,8 +97,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login").successForwardUrl("/module/index").failureUrl("/loginOut").failureHandler(customAuthenticationFailureHandler).permitAll()
                 .and().logout().logoutSuccessUrl("/").permitAll()
-                .and().csrf().disable();
+                .and().csrf().disable().exceptionHandling().accessDeniedHandler(deniedHandler);
+//        http.addFilterBefore(myFilterSecurityInterceptor,FilterSecurityInterceptor.class)
         http.headers().frameOptions().sameOrigin();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/index.html", "/static/**", "/login");
     }
 
     @Override
@@ -91,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .inMemoryAuthentication();
-//                .withUser("alice_x").password("alice_x.122").roles("ROLE_SUPER");
+                .inMemoryAuthentication()
+                .withUser("alice_x").password("alice_x.122").roles("ROLE_SUPER");
     }
 }
