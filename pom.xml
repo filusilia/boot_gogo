@@ -4,7 +4,7 @@
     <groupId>com.alice.nsgogo</groupId>
     <artifactId>nsgogo</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -14,7 +14,6 @@
     </parent>
 
     <properties>
-        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -36,7 +35,6 @@
         <commons-io.version>2.6</commons-io.version>
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
         <httpclient.version>4.5.5</httpclient.version>
-        <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>2.11.1</log4j.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <poi-tl.version>1.2.0</poi-tl.version>
@@ -92,15 +90,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
@@ -133,12 +127,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.boot</groupId>-->
+                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         </dependency>
         <!-- https://mvnrepository.com/artifact/tk.mybatis/mapper-generator -->
         <dependency>
@@ -158,7 +152,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-web</artifactId>
-            <version>2.11.1</version>
+            <version>${log4j.version}</version>
         </dependency>
 
         <!--https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-->
@@ -310,15 +304,15 @@
             <!--<skipTests>true</skipTests>-->
             <!--</configuration>-->
             <!--</plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.2</version>
-                <configuration>
-                    <!--<packagingExcludes>WEB-INF/web.xml</packagingExcludes>-->
-                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<version>3.2.2</version>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash;<packagingExcludes>WEB-INF/web.xml</packagingExcludes>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<failOnMissingWebXml>false</failOnMissingWebXml>&ndash;&gt;-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

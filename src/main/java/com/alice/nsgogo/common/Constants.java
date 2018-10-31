@@ -21,7 +21,7 @@ public class Constants {
     }
 
     @Value(value = "${project.name}")
-    private static void setProjectName(String projectName) {
+    private void setProjectName(String projectName) {
         Constants.PROJECT_NAME = projectName;
     }
 }

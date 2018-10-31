@@ -31,17 +31,17 @@ public class GoGoApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        log.info("TOMCAT {}",Constants.PROJECT_NAME);
+        log.info("TOMCAT {}", Constants.PROJECT_NAME);
         log.info("Power by Aozaki ! ");
         log.info("\t\tVersion : {} \t", Constants.VER);
         return application.sources(GoGoApplication.class);
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(GoGoApplication.class, args);
-        log.info("NS GoGo！");
+        log.info("Project {} Start Success！", Constants.PROJECT_NAME);
         log.info("Power by Aozaki ! ");
         log.info("\t\tVersion : {} \t", Constants.VER);
+        SpringApplication.run(GoGoApplication.class, args);
     }
 
     @Bean
