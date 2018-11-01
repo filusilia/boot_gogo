@@ -7,6 +7,7 @@ ns游戏搜索下载
 jpa进行数据库同步
 tk.mybatis进行数据库操作
 
+* war打包方式切换回jar包现在启动顺序发生了改变，很奇怪
 * idea控制台乱码解决方案：
     1. idea->help->edit custom vm option ,添加`-Dfile.encoding=UTF-8`
     2. tomcat->vm option ,添加`-Dfile.encoding=UTF-8`

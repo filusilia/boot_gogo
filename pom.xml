@@ -88,6 +88,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!--<dependency>-->
@@ -282,50 +287,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.alice.nsgogo.GoGoApplication</mainClass>
-                    <!--<fork>true</fork>-->
-                    <!--<classifier>exec</classifier>-->
-                    <!--<jvmArguments>-->
-                    <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
-                    <!--</jvmArguments>-->
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.5.2</version>
-            </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-surefire-plugin</artifactId>-->
-            <!--<version>2.20.1</version>-->
-            <!--<configuration>-->
-            <!--<skipTests>true</skipTests>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-war-plugin</artifactId>-->
-            <!--<version>3.2.2</version>-->
-            <!--<configuration>-->
-            <!--&lt;!&ndash;<packagingExcludes>WEB-INF/web.xml</packagingExcludes>&ndash;&gt;-->
-            <!--&lt;!&ndash;<failOnMissingWebXml>false</failOnMissingWebXml>&ndash;&gt;-->
-            <!--</configuration>-->
-            <!--</plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <!-- want the compiled classes to be compatible with JVM 1.8 -->
-                    <target>1.8</target>
-                    <encoding>UTF8</encoding>
-                </configuration>
-                <executions>
-
-                </executions>
             </plugin>
         </plugins>
     </build>

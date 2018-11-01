@@ -80,14 +80,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                        o.setSecurityMetadataSource(metadataSource);
-                        o.setAccessDecisionManager(decisionManager);
-                        return o;
-                    }
-                })
+//                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+//                    @Override
+//                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+//                        o.setSecurityMetadataSource(metadataSource);
+//                        o.setAccessDecisionManager(decisionManager);
+//                        return o;
+//                    }
+//                })
 //                .antMatchers(HttpMethod.GET,"/assets/js/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .antMatchers("/assets/**").permitAll()
@@ -103,7 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/index.html", "/static/**", "/login");
     }
 

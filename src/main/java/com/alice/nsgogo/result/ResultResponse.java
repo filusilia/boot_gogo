@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class ResultResponse<T> implements Serializable {
 
     private static final long serialVersionUID = -7550775412778691222L;
-    private final String apiVersion = Constants.VER;
+    private final String APIVersion = Constants.VER;
     private int code;
     private String message;
     private T data;
@@ -103,7 +103,7 @@ public class ResultResponse<T> implements Serializable {
      * }
      */
     public static <P> ResultResponse<P> init(int code, String msg, P data) {
-        ResultResponse<P> result = new ResultResponse<P>();
+        ResultResponse<P> result = new ResultResponse<>();
         result.code = code;
         result.message = msg;
         result.data = data;
@@ -120,7 +120,7 @@ public class ResultResponse<T> implements Serializable {
      * }
      */
     public static <P> ResultResponse<P> oauth2(final ResultCode resultCode, final P data) {
-        ResultResponse<P> result = new ResultResponse<P>();
+        ResultResponse<P> result = new ResultResponse<>();
         result.code = resultCode.getCode();
         result.message = resultCode.getMessage();
         result.data = data;
@@ -144,8 +144,8 @@ public class ResultResponse<T> implements Serializable {
                 "\"}";
     }
 
-    public String getApiVersion() {
-        return apiVersion;
+    public String getAPIVersion() {
+        return APIVersion;
     }
 
     public int getCode() {
