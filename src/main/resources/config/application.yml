@@ -31,6 +31,8 @@ spring:
     static-path-pattern: /**
   resources:
     static-locations: classpath:/static/
+  application:
+    name: nsgogo
 
 mapper:
   mappers: tk.mybatis.mapper.common.Mapper

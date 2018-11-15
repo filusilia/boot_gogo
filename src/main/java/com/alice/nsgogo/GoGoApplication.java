@@ -33,10 +33,10 @@ public class GoGoApplication {
 //    }
 
     public static void main(String[] args) {
+        SpringApplication.run(GoGoApplication.class, args);
         log.info("Project {} Start Success！", Constants.PROJECT_NAME);
         log.info("Power by Aozaki ! ");
         log.info("\t\tVersion : {} \t", Constants.VER);
-        SpringApplication.run(GoGoApplication.class, args);
     }
 
     @Bean

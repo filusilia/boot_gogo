@@ -57,7 +57,7 @@ public class NsGameDetail implements Serializable {
      * 镜像大小（GB）
      */
     @Column(name = "image_size", columnDefinition = "varchar(255) CHARACTER SET utf8 DEFAULT '' COMMENT '镜像大小（GB）'")
-    private String image_size;
+    private String imageSize;
 
     /**
      * 序列
@@ -69,31 +69,31 @@ public class NsGameDetail implements Serializable {
      * 游戏番号
      */
     @Column(name = "title_id", columnDefinition = "varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏番号'")
-    private String title_id;
+    private String titleTd;
 
     /**
      * 镜像校验码
      */
     @Column(name = "imgae_crc", columnDefinition = "varchar(50) CHARACTER SET utf8 DEFAULT '' COMMENT '镜像校验码'")
-    private String imgae_crc;
+    private String imgaeCrc;
 
     /**
      * 原始文件名称
      */
     @Column(name = "file_name", columnDefinition = "varchar(100) CHARACTER SET utf8 DEFAULT '' COMMENT '原始文件名称'")
-    private String file_name;
+    private String fileName;
 
     /**
      * 发布名称
      */
     @Column(name = "release_name", columnDefinition = "varchar(255) CHARACTER SET utf8 DEFAULT '' COMMENT '发布名称'")
-    private String release_name;
+    private String releaseName;
 
     /**
      * 镜像真实大小
      */
-    @Column(name = "trimme_dsize", columnDefinition = "int(20) unsigned zerofill DEFAULT NULL COMMENT '镜像真实大小'")
-    private Integer trimme_dsize;
+    @Column(name = "trimmed_size", columnDefinition = "int(20) unsigned zerofill DEFAULT NULL COMMENT '镜像真实大小'")
+    private Integer trimmedSize;
 
     /**
      * 固件支持版本
@@ -105,7 +105,7 @@ public class NsGameDetail implements Serializable {
      * 发行类型（1：卡带:2：网络）
      */
     @Column(name = "release_type", columnDefinition = "int(4) DEFAULT NULL COMMENT '发行类型（1：卡带:2：网络）'")
-    private Integer release_type;
+    private Integer releaseType;
 
     /**
      * 卡带数量
