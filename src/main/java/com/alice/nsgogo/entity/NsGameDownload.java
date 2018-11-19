@@ -31,28 +31,28 @@ public class NsGameDownload implements Serializable {
     /**
      * 对应游戏id
      */
-    @Column(name = "game_detail_id", nullable = false, columnDefinition = "int(8) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT '对应游戏id'")
+    @Column(name = "game_detail_id", nullable = false, columnDefinition = "int(8) unsigned zerofill NOT NULL COMMENT '对应游戏id'")
     private Integer gameDetailId;
 
     /**
      * 游戏下载地址
      */
-    @Column(name = "download_url", length = 255,columnDefinition = " CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
+    @Column(name = "download_url", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
     private String downloadUrl;
     /**
      * 游戏下载密码
      */
-    @Column(name = "download_password", length = 255,columnDefinition = " CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载密码'")
+    @Column(name = "download_password", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载密码'")
     private String downloadPassword;
     /**
      * 游戏下载类型
      */
-    @Column(name = "download_from", length = 255,columnDefinition = " CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载类型'")
+    @Column(name = "download_from", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载类型'")
     private String downloadFrom;
     /**
      * 备注
      */
-    @Column(name = "remark", length = 255,columnDefinition = " CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '备注'")
+    @Column(name = "remark", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '备注'")
     private String remark;
 
     /**

@@ -30,8 +30,8 @@ public class NsGameDetail implements Serializable {
     /**
      * 游戏原名称
      */
-    @Column(name = "name", length = 255, columnDefinition = " CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
-    private String name;
+    @Column(name = "game_name", columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
+    private String gameName;
 
     /**
      * 发行商（出版商）
@@ -102,7 +102,7 @@ public class NsGameDetail implements Serializable {
     /**
      * 固件支持版本
      */
-    @Column(name = "firmware", columnDefinition = "varchar(0) CHARACTER SET utf8 DEFAULT '' COMMENT '固件支持版本'")
+    @Column(name = "firmware", columnDefinition = "varchar(10) CHARACTER SET utf8 DEFAULT '' COMMENT '固件支持版本'")
     private String firmware;
 
     /**
