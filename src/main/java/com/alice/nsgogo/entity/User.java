@@ -38,17 +38,22 @@ public class User implements UserDetails {
     @Column(name = "third_id")
     private String thirdId;
 
-    @Column(name = "register_time")
+    /**
+     * 创建时间
+     */
+    @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date registerTime;
-
-    @Column(name = "update_time")
+    private Date createDate;
+    /**
+     * 更新时间
+     */
+    @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private Date updateDate;
 
     @Transient
     private List<GrantedAuthority> authorities;

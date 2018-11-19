@@ -1,9 +1,13 @@
 package com.alice.nsgogo.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Aozaki on 2018/10/25.
@@ -26,7 +30,7 @@ public class NsGameDetail implements Serializable {
     /**
      * 游戏原名称
      */
-    @Column(name = "name", columnDefinition = " varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
+    @Column(name = "name", length = 255, columnDefinition = " CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
     private String name;
 
     /**
@@ -112,4 +116,21 @@ public class NsGameDetail implements Serializable {
      */
     @Column(name = "card", columnDefinition = "int(4) unsigned zerofill DEFAULT 0001 COMMENT '卡带数量'")
     private Integer card;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "create_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createDate;
+    /**
+     * 更新时间
+     */
+    @Column(name = "update_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateDate;
 }
