@@ -25,7 +25,7 @@ public class NsGameDownload implements Serializable {
      */
     @Column(name = "id", columnDefinition = " int(8) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT '主键'")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**

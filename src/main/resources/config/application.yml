@@ -30,7 +30,7 @@ spring:
   mvc:
     static-path-pattern: /**
   resources:
-    static-locations: classpath:/static/
+    static-locations: classpath:/static
   application:
     name: nsgogo
 

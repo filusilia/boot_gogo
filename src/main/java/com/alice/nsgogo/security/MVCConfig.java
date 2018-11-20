@@ -1,17 +1,15 @@
-package com.alice.nsgogo.security;//package com.hxht.dts.web.security;
-//
-//import org.springframework.stereotype.Component;
-//import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-//
-///**
-// * @author alice on 2018/3/27 0027.
-// * @version 1.0
-// * @since 1.0
-// */
-//@Component
-////@EnableWebMvc
-////@ComponentScan("com.alice.mp.module")
+package com.alice.nsgogo.security;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+/**
+ * @author alice on 2018/3/27 0027.
+ * @version 1.0
+ * @since 1.0
+ */
+//@Configuration
 //public class MVCConfig implements WebMvcConfigurer {
 //    /**
 //     * Configure simple automated controllers pre-configured with the response
@@ -38,6 +36,6 @@ package com.alice.nsgogo.security;//package com.hxht.dts.web.security;
 //     */
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-////        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/static/");
+//        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
 //    }
 //}

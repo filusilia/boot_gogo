@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -19,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 /**
  * @author alice on 2018/3/27 0027.
@@ -90,8 +88,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                })
 //                .antMatchers(HttpMethod.GET,"/assets/js/**").permitAll()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/assets/**").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
+//                .antMatchers("/assets/**").permitAll()
+//                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -104,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/index.html", "/static/**", "/login");
+        web.ignoring().antMatchers("/static/assets/**");
     }
 
     @Override

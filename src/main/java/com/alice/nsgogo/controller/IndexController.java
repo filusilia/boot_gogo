@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
     private final Logger log = LoggerFactory.getLogger("nsgogo");
 
-    @GetMapping("index")
+    @GetMapping("app/index")
     public ResultResponse index() {
-        log.info("ok this is demo log,{},{}", Constants.PROJECT_NAME,Constants.VER);
+        log.info("ok this is demo log,{},{}", Constants.PROJECT_NAME, Constants.VER);
         return ResultResponse.success();
     }
 }
