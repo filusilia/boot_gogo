@@ -42,13 +42,18 @@ public class NsGameDownload implements Serializable {
     /**
      * 游戏下载密码
      */
-    @Column(name = "download_password", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载密码'")
-    private String downloadPassword;
+    @Column(name = "download_url_password", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏地址下载密码'")
+    private String downloadUrlPassword;
     /**
      * 游戏下载类型
      */
     @Column(name = "download_from", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载类型'")
     private String downloadFrom;
+    /**
+     * 游戏下载类型
+     */
+    @Column(name = "download_creator", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '下载地址创建者'")
+    private String downloadCreator;
     /**
      * 备注
      */

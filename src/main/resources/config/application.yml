@@ -27,12 +27,16 @@ spring:
     mode: HTML
     servlet:
       content-type: text/html
+    cache: false
   mvc:
     static-path-pattern: /**
   resources:
     static-locations: classpath:/static
   application:
     name: nsgogo
+  devtools:
+    restart:
+      enabled: true
 
 mapper:
   mappers: tk.mybatis.mapper.common.Mapper

@@ -18,7 +18,8 @@ public class IndexController {
 
     @GetMapping("app/index")
     public ResultResponse index() {
-        log.info("ok this is demo log,{},{}", Constants.PROJECT_NAME, Constants.VER);
+        log.info("ok this is demo log,{},{}",
+                Constants.PROJECT_NAME, Constants.VER);
         return ResultResponse.success();
     }
 }
