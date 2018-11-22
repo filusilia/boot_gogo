@@ -37,27 +37,38 @@ public class NsGameDownload implements Serializable {
     /**
      * 游戏下载地址
      */
-    @Column(name = "download_url", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
+    @Column(name = "download_url", length = 255, columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
     private String downloadUrl;
+    /**
+     * 游戏下载的破解类型
+     */
+    @Column(name = "download_crack_type", length = 4, columnDefinition = "varchar(4) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载破解类型（1：xci，2：nsp）'")
+    private String downloadCrackType;
     /**
      * 游戏下载密码
      */
-    @Column(name = "download_url_password", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏地址下载密码'")
+    @Column(name = "download_url_password", length = 255, columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏地址下载密码'")
     private String downloadUrlPassword;
     /**
-     * 游戏下载类型
+     * 游戏下载来源
      */
-    @Column(name = "download_from", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载类型'")
+    @Column(name = "download_from", length = 255, columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏下载来源（百度云，迅雷等）'")
     private String downloadFrom;
     /**
-     * 游戏下载类型
+     * 下载文件密码
      */
-    @Column(name = "download_creator", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '下载地址创建者'")
+    @Column(name = "download_file_password", length = 255, columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '下载文件密码'")
+    private String downloadFilePassword;
+
+    /**
+     * 下载地址创建者
+     */
+    @Column(name = "download_creator", length = 255, columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '下载地址创建者'")
     private String downloadCreator;
     /**
      * 备注
      */
-    @Column(name = "remark", length = 255,columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '备注'")
+    @Column(name = "remark", length = 255, columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '备注'")
     private String remark;
 
     /**

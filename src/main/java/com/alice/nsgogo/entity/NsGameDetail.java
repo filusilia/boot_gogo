@@ -28,6 +28,17 @@ public class NsGameDetail implements Serializable {
     private Integer id;
 
     /**
+     * 游戏番号
+     */
+    @Column(name = "title_id", columnDefinition = "varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏番号'")
+    private String titleId;
+    /**
+     * 游戏title version
+     */
+    @Column(name = "title_Version", columnDefinition = "varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏title version'")
+    private String titleVersion;
+
+    /**
      * 游戏原名称
      */
     @Column(name = "game_name", columnDefinition = "varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏原名称'")
@@ -69,11 +80,6 @@ public class NsGameDetail implements Serializable {
     @Column(name = "serial", columnDefinition = "varchar(50) CHARACTER SET utf8 DEFAULT NULL  COMMENT '序列'")
     private String serial;
 
-    /**
-     * 游戏番号
-     */
-    @Column(name = "title_id", columnDefinition = "varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '游戏番号'")
-    private String titleTd;
 
     /**
      * 镜像校验码
@@ -106,10 +112,15 @@ public class NsGameDetail implements Serializable {
     private String firmware;
 
     /**
-     * 发行类型（1：卡带:2：网络）
+     * 游戏发行类型
      */
-    @Column(name = "release_type", columnDefinition = "int(4) DEFAULT NULL COMMENT '发行类型（1：卡带:2：网络）'")
-    private Integer releaseType;
+    @Column(name = "distribution_method", columnDefinition = "int(4) DEFAULT NULL COMMENT '发行类型")
+    private String distributionMethod;
+    /**
+     * 卡带说明
+     */
+    @Column(name = "cartridge_description", columnDefinition = "int(4) DEFAULT NULL COMMENT '卡带说明")
+    private String cartridgeDescription;
 
     /**
      * 卡带数量
