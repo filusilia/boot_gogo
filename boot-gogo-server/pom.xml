@@ -43,7 +43,7 @@
         <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
         <!--        版本过高会导致加解密失败-->
-        <bcprov-jdk14.version>1.38</bcprov-jdk14.version>
+        <bcprov-jdk14.version>1.64</bcprov-jdk14.version>
         <!--        <bcprov-jdk14.version>1.64</bcprov-jdk14.version>-->
 
     </properties>
