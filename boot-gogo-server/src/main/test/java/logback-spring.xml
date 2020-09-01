@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
+<!-- scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true -->
+<!-- scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
+<!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<configuration>
+    <property name="log.path" value="/home/logs/"/>
+    <property name="log.file" value="nsgogo"/>
+    <!--<property name="log.path" value="/Users/alice/Downloads/"/>-->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{80}-%line - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+    <!--默认日志记录-->
+    <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.file}_debug.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}history/debug-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{0}-%line - %msg%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--默认日志记录-->
+    <appender name="logAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.file}_normal.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}history/normal-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{0}-%line - %msg%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+    <!--错误日志记录-->
+    <appender name="errAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.file}_error.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}history/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{0}-%line - %msg%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--删除日志记录-->
+    <appender name="delAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.file}_delete.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}history/delete-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{0}-%line - %msg%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--logback.LogbackDemo：类的全路径 -->
+    <logger name="errAppender" level="error" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="errAppender"/>
+    </logger>
+
+    <logger name="uploadAppender" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="uploadAppender"/>
+    </logger>
+
+    <logger name="taskUploadAppender" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="taskUploadAppender"/>
+    </logger>
+
+    <logger name="delAppender" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="delAppender"/>
+    </logger>
+
+    <logger name="wsAppender" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="wsAppender"/>
+    </logger>
+
+    <!--myibatis log configure-->
+    <logger name="tk.mybatis.mapper.provider.ExampleProvider" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="debugAppender"/>
+    </logger>
+    <logger name="com.hxht.sysm.mapper" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="debugAppender"/>
+    </logger>
+
+    <logger name="tk.mybatis.mapper.provider.SqlServerProvider" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="debugAppender"/>
+    </logger>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Statement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="logAppender"/>
+        <appender-ref ref="errAppender"/>
+    </root>
+</configuration> 

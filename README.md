@@ -1,13 +1,14 @@
-# NS_Repository
-ns游戏搜索下载
+# Let's Boot
+-
+构建springboot常用脚手架
 
-#### 2018.10.25 ver.0.0.1.BETA
+#### 0.1.Beta
+
 第一版框架搭建
-使用springboot2.0
+使用springboot2.3
 jpa进行数据库同步
 tk.mybatis进行数据库操作
 
-* war打包方式切换回jar包现在启动顺序发生了改变，很奇怪
 * idea控制台乱码解决方案：
     1. idea->help->edit custom vm option ,添加`-Dfile.encoding=UTF-8`
     2. tomcat->vm option ,添加`-Dfile.encoding=UTF-8`
