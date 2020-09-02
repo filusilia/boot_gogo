@@ -1,4 +1,4 @@
-${AnsiColor.BRIGHT_GREEN}
+${AnsiColor.BRIGHT_BLACK}
             _     _
            /\\.--/\\
            \_ _  \//\

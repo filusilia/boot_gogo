@@ -12,45 +12,25 @@
     </parent>
 
     <artifactId>generator</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <description>mapper生成工具项目</description>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.11</java.version>
-
-        <db2.version>11.1</db2.version>
-        <db2_cu.version>9.7</db2_cu.version>
-        <lombok.version>1.18.12</lombok.version>
-        <tk.mybatis.version>2.1.5</tk.mybatis.version>
-        <pagehelper.version>1.3.0</pagehelper.version>
-    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.mybatis.generator</groupId>
             <artifactId>mybatis-generator-core</artifactId>
-            <version>1.3.7</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
-        <finalName>boot-com.alice.boot.generator</finalName>
+        <finalName>generator</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.7</version>
+                <version>${mybatis-generator.version}</version>
                 <configuration>
                     <configurationFile>src/main/resources/generator/generatorConfig.xml</configurationFile>
                     <overwrite>true</overwrite>
@@ -63,13 +43,13 @@
                         <version>4.1.5</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.ibm.db2</groupId>
-                        <artifactId>db2jcc4</artifactId>
-                        <version>4.14.137</version>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.chrm</groupId>
-                        <artifactId>mybatis-generator-lombok-plugin</artifactId>
+                        <groupId>com.alice</groupId>
+                        <artifactId>generator</artifactId>
                         <version>1.0-SNAPSHOT</version>
                     </dependency>
                 </dependencies>

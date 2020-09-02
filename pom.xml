@@ -36,12 +36,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.11</java.version>
+        <java-build.version>11</java-build.version>
 
-        <db2.version>11.1</db2.version>
-        <db2_cu.version>9.7</db2_cu.version>
+        <mysql.version>8.0.21</mysql.version>
         <lombok.version>1.18.12</lombok.version>
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
         <pagehelper.version>1.3.0</pagehelper.version>
+        <mybatis-generator.version>1.4.0</mybatis-generator.version>
 
         <servlet.version>4.0.1</servlet.version>
 
@@ -75,6 +76,12 @@
                 <artifactId>springfox-boot-starter</artifactId>
                 <version>${springfox.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/tk.mybatis/mapper-spring-boot-starter -->
             <dependency>
                 <groupId>tk.mybatis</groupId>
@@ -86,6 +93,12 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-core -->
+            <dependency>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-core</artifactId>
+                <version>${mybatis-generator.version}</version>
             </dependency>
             <!-- servlet -->
             <dependency>
@@ -151,11 +164,11 @@
                 <version>${commons-net.version}</version>
                 <scope>compile</scope>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/commons-discovery/commons-discovery -->
+            <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
             <dependency>
-                <groupId>commons-discovery</groupId>
-                <artifactId>commons-discovery</artifactId>
-                <version>0.5</version>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -191,13 +204,6 @@
                 <artifactId>bcprov-jdk14</artifactId>
                 <version>${bcprov-jdk14.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter-api.version}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -222,14 +228,13 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${java-build.version}</source>
+                    <target>${java-build.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
@@ -246,6 +251,24 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>2.5</version>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-maven-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
             </plugin>
         </plugins>
     </build>

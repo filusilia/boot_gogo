@@ -2,6 +2,20 @@
 -
 构建springboot常用脚手架
 
+## gogo-generator
+
+- generator工具，使用1.4版本
+ 1.3.7与1.4的一个区别是Field构造方法发生了变化，当插件中需要自定义序列化接口时需要注意。
+- 使用tk.mybatis来生成mapper
+- 使用lombok注解
+
+### 使用方式
+
+- 在[generator](boot-generator/src/main/resources/generator/generatorConfig.xml)文件中修改数据库连接，账户与密码
+- 需要更多自定义的修改需要修改项目中三个plugin类
+1. 运行`mvn install`,安装generator项目，使其自动打包成1.0的jar包（在pom中有引用）
+2. 运行maven的插件`generator:generator`
+
 #### 0.1.Beta
 
 第一版框架搭建

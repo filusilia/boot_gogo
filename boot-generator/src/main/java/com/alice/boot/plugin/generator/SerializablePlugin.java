@@ -1,4 +1,4 @@
-package com.alice.boot.generator;
+package com.alice.boot.plugin.generator;
 
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.IntrospectedTable.TargetRuntime;
@@ -62,8 +62,7 @@ public class SerializablePlugin extends PluginAdapter {
         return true;
     }
 
-    protected void makeSerializable(TopLevelClass topLevelClass,
-                                    IntrospectedTable introspectedTable) {
+    protected void makeSerializable(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         if (addGWTInterface) {
             topLevelClass.addImportedType(gwtSerializable);
             topLevelClass.addSuperInterface(gwtSerializable);
@@ -72,8 +71,9 @@ public class SerializablePlugin extends PluginAdapter {
         if (!suppressJavaInterface) {
             topLevelClass.addImportedType(serializable);
             topLevelClass.addSuperInterface(serializable);
-
-            Field field = new Field();
+            //$NON-NLS-1$
+            //$NON-NLS-1$
+            Field field = new Field("serialVersionUID", new FullyQualifiedJavaType("long"));
             field.setFinal(true);
             field.setInitializationString("1L"); //$NON-NLS-1$
             field.setName("serialVersionUID"); //$NON-NLS-1$

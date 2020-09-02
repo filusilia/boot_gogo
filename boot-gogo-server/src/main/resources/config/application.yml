@@ -8,6 +8,11 @@ server:
 spring:
   profiles:
     active: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/gogo?serverTimezone=UTC
+    username: root
+    password: X123456xxx
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
     show-sql: true

@@ -1,4 +1,4 @@
-package com.alice.boot.generator;
+package com.alice.boot.plugin.generator;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;

@@ -5,39 +5,39 @@
 
 <!--suppress MybatisGenerateCustomPluginInspection -->
 <generatorConfiguration>
-    <properties resource="project.properties"/>
+<!--    <properties resource="project.properties"/>-->
     <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <property name="javaFileEncoding" value="UTF-8"/>
         <property name="useMapperCommentGenerator" value="false"/>
 
         <property name="javaFileEncoding" value="UTF-8"/>
-        <plugin type="tk.mybatis.mapper.com.alice.boot.generator.MapperPlugin">
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
             <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
             <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
             <property name="caseSensitive" value="true"/>
         </plugin>
         <!-- 分页相关 -->
-        <plugin type="com.alice.boot.generator.plugins.RowBoundsPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
         <!-- 带上序列化接口 -->
-        <plugin type="com.alice.boot.generator.SerializablePlugin"/>
+<!--        <plugin type="com.alice.boot.plugin.generator.SerializablePlugin"/>-->
         <!-- 自定义的注释生成插件-->
-        <plugin type="com.alice.boot.generator.plugins.CommentPlugin">
-            <!-- 抑制警告 -->
-            <property name="suppressTypeWarnings" value="true"/>
-            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
-            <property name="suppressAllComments" value="false"/>
-            <!-- 是否生成注释代时间戳-->
-            <property name="suppressDate" value="true"/>
+        <plugin type="com.alice.boot.plugin.generator.CommentPlugin">
+<!--            &lt;!&ndash; 抑制警告 &ndash;&gt;-->
+<!--            <property name="suppressTypeWarnings" value="true"/>-->
+<!--            &lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;-->
+<!--            <property name="suppressAllComments" value="false"/>-->
+<!--            &lt;!&ndash; 是否生成注释代时间戳&ndash;&gt;-->
+<!--            <property name="suppressDate" value="true"/>-->
         </plugin>
         <!-- 整合lombok-->
-        <plugin type="com.alice.boot.generator.plugins.LombokPlugin">
+        <plugin type="com.alice.boot.plugin.generator.LombokPlugin">
             <property name="hasLombok" value="true"/>
         </plugin>
 
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="${url}"
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/gogo?serverTimezone=UTC"
                         userId="root"
-                        password="root">
+                        password="X123456xxx">
         </jdbcConnection>
 
         <!--MyBatis 生成器只需要生成 Model-->
@@ -47,11 +47,11 @@
 
         <javaClientGenerator targetPackage="com.alice.boot.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
 
-        <table tableName="ns_game_detail" domainObjectName="NsGameDetail">
-            <generatedKey column="id" sqlStatement="JDBC"/>
+        <table tableName="go_user" domainObjectName="User">
+<!--            <generatedKey column="id" sqlStatement="Mysql"/>-->
         </table>
-        <table tableName="ns_game_download" domainObjectName="NsGameDownload">
-            <generatedKey column="id" sqlStatement="JDBC"/>
+        <table tableName="go_menu" domainObjectName="Menu">
+<!--            <generatedKey column="id" sqlStatement="Mysql"/>-->
         </table>
         <!--<table tableName="ns_game_detail" domainObjectName="NsGameDetail">-->
         <!--<generatedKey column="id" sqlStatement="JDBC"/>-->

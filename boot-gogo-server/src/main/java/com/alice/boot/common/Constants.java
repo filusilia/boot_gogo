@@ -41,13 +41,18 @@ public class Constants {
      */
     public static String PROJECT_PORT = "";
 
-    @Value(value = "${project.version}")
-    private void setVersion(String ver) {
-        Constants.VERSION = ver;
+    @Value("${server.port}")
+    public void setProjectPort(String centralPort) {
+        PROJECT_PORT = centralPort;
     }
 
-    @Value(value = "${project.name}")
-    private void setProjectName(String projectName) {
-        Constants.PROJECT = projectName;
+    @Value("${info.app.name}")
+    private void setProject(String project) {
+        Constants.PROJECT = project.trim().replace("/", "");
+    }
+
+    @Value("${info.app.version}")
+    private void setVersion(String version) {
+        Constants.VERSION = version;
     }
 }

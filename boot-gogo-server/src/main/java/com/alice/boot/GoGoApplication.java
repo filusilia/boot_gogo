@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @author Aozaki on 2018/10/23.
+ * @author Aozaki on 2020/09/01.
  * @version 1.0
  * @since 1.0
  */
