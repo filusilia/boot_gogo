@@ -7,6 +7,8 @@ import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.config.CommentGeneratorConfiguration;
+import org.mybatis.generator.config.Context;
 
 import java.util.List;
 import java.util.Properties;
@@ -21,6 +23,11 @@ public class SerializablePlugin extends PluginAdapter {
     private FullyQualifiedJavaType gwtSerializable;
     private boolean addGWTInterface;
     private boolean suppressJavaInterface;
+    private boolean useMapperCommentGenerator = true;
+    /**
+     * 注释生成器
+     */
+    private CommentGeneratorConfiguration commentCfg;
 
     public SerializablePlugin() {
         super();
@@ -90,5 +97,21 @@ public class SerializablePlugin extends PluginAdapter {
 
             topLevelClass.addField(field);
         }
+    }
+
+    @Override
+    public void setContext(Context context) {
+        super.setContext(context);
+        //设置默认的注释生成器
+        useMapperCommentGenerator = !"FALSE".equalsIgnoreCase(context.getProperty("useMapperCommentGenerator"));
+        if (useMapperCommentGenerator) {
+            commentCfg = new CommentGeneratorConfiguration();
+            commentCfg.setConfigurationType(MapperCommentGenerator.class.getCanonicalName());
+            context.setCommentGeneratorConfiguration(commentCfg);
+        }
+        //支持oracle获取注释#114
+        context.getJdbcConnectionConfiguration().addProperty("remarksReporting", "true");
+        //支持mysql获取注释
+        context.getJdbcConnectionConfiguration().addProperty("useInformationSchema", "true");
     }
 }

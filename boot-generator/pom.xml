@@ -23,6 +23,11 @@
             <artifactId>mybatis-generator-core</artifactId>
             <scope>provided</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>tk.mybatis</groupId>-->
+<!--            <artifactId>mapper-generator</artifactId>-->
+<!--            <version>${tk.mybatis-generator.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
     <build>
         <finalName>generator</finalName>
@@ -37,10 +42,21 @@
                     <verbose>true</verbose>
                 </configuration>
                 <dependencies>
+<!--                    <dependency>-->
+<!--                        <groupId>tk.mybatis</groupId>-->
+<!--                        <artifactId>mapper-generator</artifactId>-->
+<!--                        <version>${tk.mybatis-generator.version}</version>-->
+<!--                        <exclusions>-->
+<!--                            <exclusion>-->
+<!--                                <groupId>org.mybatis.generator</groupId>-->
+<!--                                <artifactId>mybatis-generator-core</artifactId>-->
+<!--                            </exclusion>-->
+<!--                        </exclusions>-->
+<!--                    </dependency>-->
                     <dependency>
-                        <groupId>tk.mybatis</groupId>
-                        <artifactId>mapper</artifactId>
-                        <version>4.1.5</version>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>${mybatis-generator.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>mysql</groupId>
@@ -48,8 +64,15 @@
                         <version>${mysql.version}</version>
                     </dependency>
                     <dependency>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </dependency>
+                    <dependency>
                         <groupId>com.alice</groupId>
                         <artifactId>generator</artifactId>
+                        <scope>system</scope>
+                        <systemPath>d:/openSource/let's-boot/boot-generator/target/generator.jar</systemPath>
                         <version>1.0-SNAPSHOT</version>
                     </dependency>
                 </dependencies>

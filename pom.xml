@@ -11,6 +11,7 @@
 
     <name>aBoot</name>
     <modules>
+        <module>boot-common</module>
         <module>boot-gogo-server</module>
         <module>boot-generator</module>
     </modules>
@@ -41,6 +42,7 @@
         <mysql.version>8.0.21</mysql.version>
         <lombok.version>1.18.12</lombok.version>
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
+        <tk.mybatis-generator.version>1.1.5</tk.mybatis-generator.version>
         <pagehelper.version>1.3.0</pagehelper.version>
         <mybatis-generator.version>1.4.0</mybatis-generator.version>
 
@@ -87,6 +89,12 @@
                 <groupId>tk.mybatis</groupId>
                 <artifactId>mapper-spring-boot-starter</artifactId>
                 <version>${tk.mybatis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/tk.mybatis/mapper-generator -->
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-generator</artifactId>
+                <version>${tk.mybatis-generator.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
             <dependency>
@@ -197,12 +205,6 @@
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk14 -->
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk14</artifactId>
-                <version>${bcprov-jdk14.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

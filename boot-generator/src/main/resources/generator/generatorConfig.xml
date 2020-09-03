@@ -8,50 +8,62 @@
 <!--    <properties resource="project.properties"/>-->
     <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <property name="javaFileEncoding" value="UTF-8"/>
+        <!--配置是否使用通用 Mapper 自带的注释扩展，默认 true-->
         <property name="useMapperCommentGenerator" value="false"/>
 
-        <property name="javaFileEncoding" value="UTF-8"/>
-        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+        <!-- 抑制警告 -->
+        <property name="suppressTypeWarnings" value="true"/>
+        <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+        <property name="suppressAllComments" value="true"/>
+
+        <!-- 是否生成注释代时间戳-->
+        <property name="suppressDate" value="false"/>
+
+        <!-- 自定义的注释生成插件-->
+        <plugin type="com.alice.boot.plugin.generator.CommentPlugin">
+
             <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
-            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            <property name="author" value="Alice"/>
+            <property name="needsSwagger" value="true"/>
             <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+            <!--配置是否启用lombok, 支持如下6种注解-->
+            <!--当配置 Data 后，Getter Setter ToString EqualsAndHashCode 会被忽略-->
+            <property name="lombok" value="Getter,Setter,Data,ToString,Accessors,EqualsAndHashCode"/>
         </plugin>
+
         <!-- 分页相关 -->
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
         <!-- 带上序列化接口 -->
-<!--        <plugin type="com.alice.boot.plugin.generator.SerializablePlugin"/>-->
-        <!-- 自定义的注释生成插件-->
-        <plugin type="com.alice.boot.plugin.generator.CommentPlugin">
-<!--            &lt;!&ndash; 抑制警告 &ndash;&gt;-->
-<!--            <property name="suppressTypeWarnings" value="true"/>-->
-<!--            &lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;-->
-<!--            <property name="suppressAllComments" value="false"/>-->
-<!--            &lt;!&ndash; 是否生成注释代时间戳&ndash;&gt;-->
-<!--            <property name="suppressDate" value="true"/>-->
-        </plugin>
-        <!-- 整合lombok-->
-        <plugin type="com.alice.boot.plugin.generator.LombokPlugin">
-            <property name="hasLombok" value="true"/>
-        </plugin>
+        <plugin type="com.alice.boot.plugin.generator.SerializablePlugin"/>
 
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://127.0.0.1:3306/gogo?serverTimezone=UTC"
                         userId="root"
                         password="X123456xxx">
         </jdbcConnection>
+        <javaTypeResolver>
+            <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，
+            为 true时把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
+            <property name="forceBigDecimals" value="true"/>
+            <!-- java8 localDateTime -->
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
 
         <!--MyBatis 生成器只需要生成 Model-->
-        <javaModelGenerator targetPackage="com.alice.boot.entity" targetProject="src/test/java"/>
+        <javaModelGenerator targetPackage="com.alice.boot.entity" targetProject="src/main/java"/>
 
         <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
 
         <javaClientGenerator targetPackage="com.alice.boot.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
 
         <table tableName="go_user" domainObjectName="User">
-<!--            <generatedKey column="id" sqlStatement="Mysql"/>-->
+            <generatedKey column="id" sqlStatement="Mysql"/>
         </table>
         <table tableName="go_menu" domainObjectName="Menu">
-<!--            <generatedKey column="id" sqlStatement="Mysql"/>-->
+            <generatedKey column="id" sqlStatement="Mysql"/>
         </table>
         <!--<table tableName="ns_game_detail" domainObjectName="NsGameDetail">-->
         <!--<generatedKey column="id" sqlStatement="JDBC"/>-->

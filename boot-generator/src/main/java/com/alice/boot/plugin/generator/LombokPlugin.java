@@ -9,7 +9,7 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 
 import java.util.List;
 
-
+@Deprecated
 public class LombokPlugin extends PluginAdapter {
 
     private FullyQualifiedJavaType dataAnnotation;

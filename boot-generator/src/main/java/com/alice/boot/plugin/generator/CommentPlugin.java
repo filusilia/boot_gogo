@@ -2,201 +2,533 @@ package com.alice.boot.plugin.generator;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.PluginAdapter;
-import org.mybatis.generator.api.dom.java.Field;
-import org.mybatis.generator.api.dom.java.JavaElement;
-import org.mybatis.generator.api.dom.java.Method;
-import org.mybatis.generator.api.dom.java.TopLevelClass;
-import org.mybatis.generator.api.dom.xml.Attribute;
-import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.api.dom.java.*;
+import org.mybatis.generator.api.dom.xml.*;
+import org.mybatis.generator.config.CommentGeneratorConfiguration;
+import org.mybatis.generator.config.Context;
+import org.mybatis.generator.internal.util.StringUtility;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Alice
  * 自定义注释生成
  */
-public class CommentPlugin extends PluginAdapter {
+public class CommentPlugin extends FalseMethodPlugin {
+
+    private final Set<String> mappers = new HashSet<>();
+    private boolean caseSensitive = false;
+    private boolean useMapperCommentGenerator = true;
+
+    private String author;
+    /**
+     * 开始的分隔符，例如mysql为`，sqlserver为[
+     */
+    private String beginningDelimiter = "";
+    /**
+     * 结束的分隔符，例如mysql为`，sqlserver为]
+     */
+    private String endingDelimiter = "";
+    /**
+     * 数据库模式
+     */
+    private String schema;
+    /**
+     * 注释生成器
+     */
+    private CommentGeneratorConfiguration commentCfg;
+    /**
+     * 强制生成注解
+     */
+    private boolean forceAnnotation;
+
+    /**
+     * 是否需要生成Data注解
+     */
+    private boolean needsData = false;
+    /**
+     * 是否需要生成Getter注解
+     */
+    private boolean needsGetter = false;
+    /**
+     * 是否需要生成Setter注解
+     */
+    private boolean needsSetter = false;
+    /**
+     * 是否需要生成ToString注解
+     */
+    private boolean needsToString = false;
+    /**
+     * 是否需要生成Accessors(chain = true)注解
+     */
+    private boolean needsAccessors = false;
+    /**
+     * 是否需要生成EqualsAndHashCode注解
+     */
+    private boolean needsEqualsAndHashCode = false;
+    /**
+     * 是否生成字段名常量
+     */
+    private boolean generateColumnConstants = false;
+    /**
+     * 是否生成默认的属性的静态方法
+     */
+    private boolean generateDefaultInstanceMethod = false;
+    /**
+     * 是否生成swagger注解,包括 @ApiModel和@ApiModelProperty
+     */
+    private boolean needsSwagger = false;
 
     @Override
     public boolean validate(List<String> warnings) {
         return true;
     }
 
-    @Override
-    public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        topLevelClass.getJavaDocLines().clear();
-        topLevelClass.addJavaDocLine("/**");
-        topLevelClass.addJavaDocLine(" * @author Alice");
-        topLevelClass.addJavaDocLine(" * Table: " + introspectedTable.getRemarks());
-        topLevelClass.addJavaDocLine(" */");
-        return true;
-    }
-
+    /**
+     * 实体类生成
+     *
+     * @param field
+     * @param topLevelClass
+     * @param introspectedColumn
+     * @param introspectedTable
+     * @param modelClassType
+     * @return
+     */
     @Override
     public boolean modelFieldGenerated(Field field, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+        //生成字段的注解
+        List<IntrospectedColumn> primaryKeyColumns = introspectedTable.getPrimaryKeyColumns();
+        for (IntrospectedColumn col : primaryKeyColumns) {
+            if (col.getActualColumnName().equals(introspectedColumn.getActualColumnName())) {
+                field.addAnnotation("@Id");
+            }
+        }
+        field.addAnnotation("@Column(name = \"" + introspectedColumn.getActualColumnName() + "\")");
         this.comment(field, introspectedTable, introspectedColumn);
         return true;
     }
 
-    @Override
-    public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
-        return true;
-    }
-
-    @Override
-    public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
-        return true;
-    }
-
+    /**
+     * 对实体类添加注释
+     *
+     * @param element
+     * @param introspectedTable
+     * @param introspectedColumn
+     */
     private void comment(JavaElement element, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
         element.getJavaDocLines().clear();
         element.addJavaDocLine("/**");
         String remark = introspectedColumn.getRemarks();
         if (remark != null && remark.length() > 1) {
             element.addJavaDocLine(" * " + remark);
-//            element.addJavaDocLine(" *");
         }
-
-//        element.addJavaDocLine(" * Table:     " + introspectedTable.getFullyQualifiedTable());
-//        element.addJavaDocLine(" * Column:    " + introspectedColumn.getActualColumnName());
-//        element.addJavaDocLine(" * Nullable:  " + introspectedColumn.isNullable());
         element.addJavaDocLine(" */");
     }
 
-//    @Override
-//    public boolean sqlMapResultMapWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-//        this.commentResultMap(element, introspectedTable);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean sqlMapResultMapWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-//        this.commentResultMap(element, introspectedTable);
-//        return true;
-//    }
-
-//    void commentResultMap(XmlElement element, IntrospectedTable introspectedTable) {
-//        List<VisitableElement> es = element.getElements();
-//        if (!es.isEmpty()) {
-//            String alias = introspectedTable.getTableConfiguration().getAlias();
-//            int aliasLen = -1;
-//            if (alias != null) {
-//                aliasLen = alias.length() + 1;
-//            }
-//
-//            Iterator<VisitableElement> it = es.iterator();
-//            HashMap<VisitableElement, TextElement> map = new HashMap<>();
-//
-//            while(true) {
-//                while(it.hasNext()) {
-//                    VisitableElement e = it.next();
-//                    if (e instanceof TextElement) {
-//                        it.remove();
-//                    } else {
-//                        XmlElement el = (XmlElement)e;
-//                        List<Attribute> as = el.getAttributes();
-//                        if (!as.isEmpty()) {
-//                            String col = null;
-//
-//                            for (Attribute a : as) {
-//                                if ("column".equalsIgnoreCase(a.getName())) {
-//                                    col = a.getValue();
-//                                    break;
-//                                }
-//                            }
-//
-//                            if (col != null) {
-//                                if (aliasLen > 0) {
-//                                    col = col.substring(aliasLen);
-//                                }
-//
-//                                Optional<IntrospectedColumn> ic = introspectedTable.getColumn(col);
-//                                if (ic.isPresent()) {
-//                                    StringBuilder sb = new StringBuilder();
-//                                    if (ic.get().getRemarks() != null && ic.get().getRemarks().length() > 1) {
-//                                        sb.append("<!-- ");
-//                                        sb.append(ic.get().getRemarks());
-//                                        sb.append(" -->");
-//                                        map.put(el, new TextElement(sb.toString()));
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                if (map.isEmpty()) {
-//                    return;
-//                }
-//
-//                Set<VisitableElement> set = map.keySet();
-//
-//                for (VisitableElement e : set) {
-//                    int id = es.indexOf(e);
-//                    es.add(id, map.get(e));
-//                    es.add(id, new TextElement(""));
-//                }
-//
-//                return;
-//            }
-//        }
-//    }
-
     @Override
-    public boolean sqlMapInsertElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        this.removeAttribute(element.getAttributes(), "parameterType");
+    public boolean sqlMapResultMapWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+        this.commentResultMap(element, introspectedTable);
+        context.getCommentGenerator().addComment(element);
         return true;
     }
 
     @Override
-    public boolean sqlMapInsertSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        this.removeAttribute(element.getAttributes(), "parameterType");
+    public boolean sqlMapResultMapWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+        this.commentResultMap(element, introspectedTable);
+        context.getCommentGenerator().addComment(element);
         return true;
     }
 
-    @Override
-    public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        this.removeAttribute(element.getAttributes(), "parameterType");
-        return true;
-    }
+    /**
+     * 生成mapper注释
+     *
+     * @param element
+     * @param introspectedTable
+     */
+    void commentResultMap(XmlElement element, IntrospectedTable introspectedTable) {
+        List<VisitableElement> es = element.getElements();
+        if (!es.isEmpty()) {
+            String alias = introspectedTable.getTableConfiguration().getAlias();
+            int aliasLen = -1;
+            if (alias != null) {
+                aliasLen = alias.length() + 1;
+            }
 
-    @Override
-    public boolean sqlMapUpdateByPrimaryKeyWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        this.removeAttribute(element.getAttributes(), "parameterType");
-        return true;
-    }
+            Iterator<VisitableElement> it = es.iterator();
+            HashMap<VisitableElement, TextElement> map = new HashMap<>();
 
-    @Override
-    public boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        this.removeAttribute(element.getAttributes(), "parameterType");
-        return true;
-    }
+            while (it.hasNext()) {
+                VisitableElement e = it.next();
+                if (e instanceof TextElement) {
+                    //添加注释属于textElement，所以会在此删除，如果需要自定义注释需要修改此处逻辑
+                    it.remove();
+                } else {
+                    XmlElement el = (XmlElement) e;
+                    List<Attribute> as = el.getAttributes();
+                    if (!as.isEmpty()) {
+                        String col = null;
 
-    private void removeAttribute(List<Attribute> as, String name) {
-        if (!as.isEmpty()) {
-            Iterator<Attribute> it = as.iterator();
+                        for (Attribute a : as) {
+                            if ("column".equalsIgnoreCase(a.getName())) {
+                                col = a.getValue();
+                                break;
+                            }
+                        }
 
-            Attribute attr;
-            do {
-                if (!it.hasNext()) {
-                    return;
+                        if (col != null) {
+                            if (aliasLen > 0) {
+                                col = col.substring(aliasLen);
+                            }
+
+                            Optional<IntrospectedColumn> ic = introspectedTable.getColumn(col);
+                            if (ic.isPresent()) {
+                                StringBuilder sb = new StringBuilder();
+                                if (ic.get().getRemarks() != null && ic.get().getRemarks().length() > 1) {
+                                    sb.append("<!-- ");
+                                    sb.append(ic.get().getRemarks());
+                                    sb.append(" -->");
+                                    map.put(el, new TextElement(sb.toString()));
+                                }
+                            }
+                        }
+                    }
                 }
+            }
 
-                attr = it.next();
-            } while (!attr.getName().equalsIgnoreCase(name));
+            if (map.isEmpty()) {
+                return;
+            }
 
-            it.remove();
+            Set<VisitableElement> set = map.keySet();
+
+            for (VisitableElement e : set) {
+                int id = es.indexOf(e);
+                es.add(id, map.get(e));
+            }
         }
     }
 
-//    @Override
-//    public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
+    /**
+     * 生成的Mapper接口
+     *
+     * @param interfaze
+     * @param introspectedTable
+     * @return
+     */
+    @Override
+    public boolean clientGenerated(Interface interfaze, IntrospectedTable introspectedTable) {
+        //添加Repository注解
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository"));
+        interfaze.addAnnotation("@Repository");
+        //获取实体类
+        FullyQualifiedJavaType entityType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+        //import接口
+        for (String mapper : mappers) {
+            interfaze.addImportedType(new FullyQualifiedJavaType(mapper));
+            interfaze.addSuperInterface(new FullyQualifiedJavaType(mapper + "<" + entityType.getShortName() + ">"));
+        }
+        //import实体类
+        interfaze.addImportedType(entityType);
+        return true;
+    }
+
+    @Override
+    public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
 //        document.getRootElement().addElement(new TextElement(""));
-//        document.getRootElement().addElement(new TextElement("<!-- ### 以上代码由MBG + CommentPlugin自动生成, 生成时间: " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()) + " ### -->\n\n\n"));
-//        document.getRootElement().addElement(new TextElement("<!-- Your codes goes here!!! -->"));
-//        document.getRootElement().addElement(new TextElement(""));
-//        return true;
-//    }
+//        String sb = "  WARNING - " + MergeConstants.NEW_ELEMENT_TAG;
+//        document.getRootElement().addElement(new TextElement("<!-- ### " + sb + " \n 以上代码由MBG + CommentPlugin自动生成, 生成时间: \" + (LocalDateTime.now()) + \" ### -->"));
+        return true;
+    }
+
+    public String getDelimiterName(String name) {
+        StringBuilder nameBuilder = new StringBuilder();
+        if (StringUtility.stringHasValue(schema)) {
+            nameBuilder.append(schema);
+            nameBuilder.append(".");
+        }
+        nameBuilder.append(beginningDelimiter);
+        nameBuilder.append(name);
+        nameBuilder.append(endingDelimiter);
+        return nameBuilder.toString();
+    }
+
+    /**
+     * 处理实体类的包和@Table注解
+     *
+     * @param topLevelClass
+     * @param introspectedTable
+     */
+    private void processEntityClass(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        //引入JPA注解
+        topLevelClass.addImportedType("javax.persistence.*");
+
+        //添加实体类基础注解
+        topLevelClass.getJavaDocLines().clear();
+        topLevelClass.addJavaDocLine("/**");
+        topLevelClass.addJavaDocLine(" * @author " + author);
+        topLevelClass.addJavaDocLine(" * Table: " + introspectedTable.getRemarks());
+        topLevelClass.addJavaDocLine(" */");
+
+        topLevelClass.addAnnotation("@Entity");
+        //lombok扩展开始
+        //如果需要Data，引入包，代码增加注解
+        if (this.needsData) {
+            topLevelClass.addImportedType("lombok.Data");
+            topLevelClass.addAnnotation("@Data");
+        }
+        //如果需要Getter，引入包，代码增加注解
+        if (this.needsGetter) {
+            topLevelClass.addImportedType("lombok.Getter");
+            topLevelClass.addAnnotation("@Getter");
+        }
+        //如果需要Setter，引入包，代码增加注解
+        if (this.needsSetter) {
+            topLevelClass.addImportedType("lombok.Setter");
+            topLevelClass.addAnnotation("@Setter");
+        }
+        //如果需要ToString，引入包，代码增加注解
+        if (this.needsToString) {
+            topLevelClass.addImportedType("lombok.ToString");
+            topLevelClass.addAnnotation("@ToString");
+        }
+        //如果需要Getter，引入包，代码增加注解
+        if (this.needsAccessors) {
+            topLevelClass.addImportedType("lombok.experimental.Accessors");
+            topLevelClass.addAnnotation("@Accessors(chain = true)");
+        }
+        //如果需要Getter，引入包，代码增加注解
+        if (this.needsEqualsAndHashCode) {
+            topLevelClass.addImportedType("lombok.EqualsAndHashCode");
+            topLevelClass.addAnnotation("@EqualsAndHashCode");
+        }
+        //lombok扩展结束
+        // region swagger扩展
+        if (this.needsSwagger) {
+            //导包
+            topLevelClass.addImportedType("io.swagger.annotations.ApiModel");
+            topLevelClass.addImportedType("io.swagger.annotations.ApiModelProperty");
+            //增加注解(去除注释中的转换符)
+            String remarks = introspectedTable.getRemarks();
+            if (remarks == null) {
+                remarks = "";
+            }
+            topLevelClass.addAnnotation("@ApiModel(\"" + remarks.replaceAll("\r", "").replaceAll("\n", "") + "\")");
+        }
+        // endregion swagger扩展
+        String tableName = introspectedTable.getFullyQualifiedTableNameAtRuntime();
+        //如果包含空格，或者需要分隔符，需要完善
+        if (StringUtility.stringContainsSpace(tableName)) {
+            tableName = context.getBeginningDelimiter() + tableName + context.getEndingDelimiter();
+        }
+        //是否忽略大小写，对于区分大小写的数据库，会有用
+        if (caseSensitive && !topLevelClass.getType().getShortName().equals(tableName)) {
+            topLevelClass.addAnnotation("@Table(name = \"" + getDelimiterName(tableName) + "\")");
+        } else if (!topLevelClass.getType().getShortName().equalsIgnoreCase(tableName)) {
+            topLevelClass.addAnnotation("@Table(name = \"" + getDelimiterName(tableName) + "\")");
+        } else if (StringUtility.stringHasValue(schema)
+                || StringUtility.stringHasValue(beginningDelimiter)
+                || StringUtility.stringHasValue(endingDelimiter)) {
+            topLevelClass.addAnnotation("@Table(name = \"" + getDelimiterName(tableName) + "\")");
+        } else if (forceAnnotation) {
+            topLevelClass.addAnnotation("@Table(name = \"" + getDelimiterName(tableName) + "\")");
+        }
+        if (generateColumnConstants) {
+            for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
+                Field field = new Field(introspectedColumn.getActualColumnName().toUpperCase(),
+                        new FullyQualifiedJavaType(String.class.getName()));
+                field.setVisibility(JavaVisibility.PUBLIC);
+                field.setStatic(true);
+                field.setFinal(true);
+                field.setInitializationString("\"" + introspectedColumn.getJavaProperty() + "\"");
+                context.getCommentGenerator().addClassComment(topLevelClass, introspectedTable);
+                topLevelClass.addField(field);
+                //增加字段名常量,用于pageHelper
+                Field columnField = new Field("DB_" + introspectedColumn.getActualColumnName().toUpperCase(),
+                        new FullyQualifiedJavaType(String.class.getName()));
+                columnField.setVisibility(JavaVisibility.PUBLIC);
+                columnField.setStatic(true);
+                columnField.setFinal(true);
+                columnField.setInitializationString("\"" + introspectedColumn.getActualColumnName() + "\"");
+                topLevelClass.addField(columnField);
+            }
+        }
+        if (generateDefaultInstanceMethod) {
+            Method defaultMethod = new Method("defaultInstance");
+            defaultMethod.setStatic(true);
+            defaultMethod.setVisibility(JavaVisibility.PUBLIC);
+            defaultMethod.setReturnType(topLevelClass.getType());
+            defaultMethod.addBodyLine(String.format("%s instance = new %s();", topLevelClass.getType().getShortName(), topLevelClass.getType().getShortName()));
+            for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
+                String shortName = introspectedColumn.getFullyQualifiedJavaType().getShortName();
+                List<String> supportType = Arrays.asList("Byte", "Short", "Character", "Integer", "Long", "Float", "Double", "String", "BigDecimal", "BigInteger");
+                if (!supportType.contains(shortName)) {
+                    continue;
+                }
+                if (introspectedColumn.getDefaultValue() != null) {
+                    String defaultValue = introspectedColumn.getDefaultValue();
+                    //去除前后'',如 '123456' -> 123456
+                    if (defaultValue.startsWith("'") && defaultValue.endsWith("'")) {
+                        if (defaultValue.length() == 2) {
+                            defaultValue = "";
+                        } else {
+                            defaultValue = defaultValue.substring(1, defaultValue.length() - 1);
+                        }
+                    }
+                    //暂不支持时间类型默认值识别,不同数据库表达式不同
+                    if ("Boolean".equals(shortName)) {
+                        if ("0".equals(defaultValue)) {
+                            defaultValue = "false";
+                        } else if ("1".equals(defaultValue)) {
+                            defaultValue = "true";
+                        }
+                    }
+                    //通过 new 方法转换
+                    defaultMethod.addBodyLine(String.format("instance.%s = new %s(\"%s\");", introspectedColumn.getJavaProperty(), shortName, defaultValue));
+                }
+
+            }
+            defaultMethod.addBodyLine("return instance;");
+            topLevelClass.addMethod(defaultMethod);
+        }
+    }
+
+    /**
+     * 如果需要生成Getter注解，就不需要生成get相关代码了
+     */
+    @Override
+    public boolean modelGetterMethodGenerated(Method method,
+                                              TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
+                                              IntrospectedTable introspectedTable,
+                                              ModelClassType modelClassType) {
+
+        return !(this.needsData || this.needsGetter);
+    }
+
+    /**
+     * 如果需要生成Setter注解，就不需要生成set相关代码了
+     */
+    @Override
+    public boolean modelSetterMethodGenerated(Method method,
+                                              TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
+                                              IntrospectedTable introspectedTable,
+                                              ModelClassType modelClassType) {
+        return !(this.needsData || this.needsSetter);
+    }
+
+    /**
+     * 生成基础实体类
+     *
+     * @param topLevelClass
+     * @param introspectedTable
+     * @return
+     */
+    @Override
+    public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        processEntityClass(topLevelClass, introspectedTable);
+        return true;
+    }
+
+    /**
+     * 生成实体类注解KEY对象
+     *
+     * @param topLevelClass
+     * @param introspectedTable
+     * @return
+     */
+    @Override
+    public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        processEntityClass(topLevelClass, introspectedTable);
+        return true;
+    }
+
+    /**
+     * 生成带BLOB字段的对象
+     *
+     * @param topLevelClass
+     * @param introspectedTable
+     * @return
+     */
+    @Override
+    public boolean modelRecordWithBLOBsClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        processEntityClass(topLevelClass, introspectedTable);
+        return false;
+    }
+
+
+    @Override
+    public void setContext(Context context) {
+        super.setContext(context);
+        //设置默认的注释生成器
+        useMapperCommentGenerator = !"FALSE".equalsIgnoreCase(context.getProperty("useMapperCommentGenerator"));
+        if (useMapperCommentGenerator) {
+            commentCfg = new CommentGeneratorConfiguration();
+            commentCfg.setConfigurationType(MapperCommentGenerator.class.getCanonicalName());
+            context.setCommentGeneratorConfiguration(commentCfg);
+        }
+        //支持oracle获取注释#114
+        context.getJdbcConnectionConfiguration().addProperty("remarksReporting", "true");
+        //支持mysql获取注释
+        context.getJdbcConnectionConfiguration().addProperty("useInformationSchema", "true");
+    }
+
+    /**
+     * 注入xml中的配置
+     *
+     * @param properties properties
+     */
+    @Override
+    public void setProperties(Properties properties) {
+        super.setProperties(properties);
+        this.author = getProperty("author", "");
+        String mappers = getProperty("mappers");
+        if (StringUtility.stringHasValue(mappers)) {
+            this.mappers.addAll(Arrays.asList(mappers.split(",")));
+        } else {
+            throw new RuntimeException("Mapper插件缺少必要的mappers属性!");
+        }
+        this.caseSensitive = Boolean.parseBoolean(this.properties.getProperty("caseSensitive"));
+        this.forceAnnotation = getPropertyAsBoolean("forceAnnotation");
+        this.beginningDelimiter = getProperty("beginningDelimiter", "");
+        this.endingDelimiter = getProperty("endingDelimiter", "");
+        this.schema = getProperty("schema");
+        //lombok扩展
+        String lombok = getProperty("lombok");
+        if (lombok != null && !"".equals(lombok)) {
+            this.needsData = lombok.contains("Data");
+            //@Data 优先级高于 @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode
+            this.needsGetter = !this.needsData && lombok.contains("Getter");
+            this.needsSetter = !this.needsData && lombok.contains("Setter");
+            this.needsToString = !this.needsData && lombok.contains("ToString");
+            this.needsEqualsAndHashCode = !this.needsData && lombok.contains("EqualsAndHashCode");
+            this.needsAccessors = lombok.contains("Accessors");
+        }
+        //swagger扩展
+        String swagger = getProperty("swagger", "false");
+        if ("true".equalsIgnoreCase(swagger)) {
+            this.needsSwagger = true;
+        }
+        if (useMapperCommentGenerator) {
+            commentCfg.addProperty("beginningDelimiter", this.beginningDelimiter);
+            commentCfg.addProperty("endingDelimiter", this.endingDelimiter);
+            String forceAnnotation = getProperty("forceAnnotation");
+            if (StringUtility.stringHasValue(forceAnnotation)) {
+                commentCfg.addProperty("forceAnnotation", forceAnnotation);
+            }
+            commentCfg.addProperty("needsSwagger", this.needsSwagger + "");
+        }
+        this.generateColumnConstants = getPropertyAsBoolean("generateColumnConsts");
+        this.generateDefaultInstanceMethod = getPropertyAsBoolean("generateDefaultInstanceMethod");
+    }
+
+    protected String getProperty(String key) {
+        return this.properties.getProperty(key);
+    }
+
+    protected String getProperty(String key, String defaultValue) {
+        return this.properties.getProperty(key, defaultValue);
+    }
+
+    protected Boolean getPropertyAsBoolean(String key) {
+        return Boolean.parseBoolean(getProperty(key));
+    }
 }

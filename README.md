@@ -5,16 +5,19 @@
 ## gogo-generator
 
 - generator工具，使用1.4版本
- 1.3.7与1.4的一个区别是Field构造方法发生了变化，当插件中需要自定义序列化接口时需要注意。
-- 使用tk.mybatis来生成mapper
-- 使用lombok注解
+ - 1.3.7与1.4有区别，所以进行升级兼容
+ - [CommentPlugin](boot-generator/src/main/java/com/alice/boot/plugin/generator/CommentPlugin.java)是仿照通用mapper的generator工具
+ - 可以自定义是否使用lombok注解，通过`lombok`配置
+ - 使用`useJSR310Types`来使用jdk8新的时间类型localDateTime
+ - 自定义序列化接口[SerializablePlugin](boot-generator/src/main/java/com/alice/boot/plugin/generator/SerializablePlugin.java)
+ - mapper继承通用mapper
 
 ### 使用方式
 
 - 在[generator](boot-generator/src/main/resources/generator/generatorConfig.xml)文件中修改数据库连接，账户与密码
-- 需要更多自定义的修改需要修改项目中三个plugin类
+- 注意pom中引用的文件jar包所在地址。
 1. 运行`mvn install`,安装generator项目，使其自动打包成1.0的jar包（在pom中有引用）
-2. 运行maven的插件`generator:generator`
+2. 运行maven的插件`mvn generator:generator`
 
 #### 0.1.Beta
 
