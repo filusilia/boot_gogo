@@ -2,7 +2,22 @@
 -
 构建springboot常用脚手架
 
-## gogo-generator
+## 1. boot-common
+
+- 基础常用工具
+
+### httpclient
+
+- 使用httpclient4.5，支持get,post,put,delete等方法。
+- 封装了大部分请求的request，基础request在[BaseEntityRequest](boot-common/src/main/java/com/alice/boot/util/http/BaseEntityRequest.java)
+- 返回使用[HttpClientResponse](boot-common/src/main/java/com/alice/boot/util/http/HttpClientResponse.java)
+- 返回赋值在[HttpClientUtils](boot-common/src/main/java/com/alice/boot/util/http/HttpClientUtil.java)
+ 
+ * 需要注意的是，返回赋值通过`EntityUtils.toString(entity, defaultCharset)`，
+ 如果是xml请求，转译是通过content-type来解析的返回流，并不是返回的xml报文中xml报文头的encoding，所以需要提前设置正确的编码。
+ 如果无法确定编码，可以修改解析方式，通过`new SAXReader().read(entity.getContent())`返回dom4j的document。可以正确的解析返回的xml报文头的encoding，防止乱码
+
+## 2. gogo-generator
 
 - generator工具，使用1.4版本
  - 1.3.7与1.4有区别，所以进行升级兼容
@@ -19,11 +34,9 @@
 1. 运行`mvn install`,安装generator项目，使其自动打包成1.0的jar包（在pom中有引用）
 2. 运行maven的插件`mvn generator:generator`
 
-#### 0.1.Beta
+## 0.1.Beta
 
-第一版框架搭建
 使用springboot2.3
-jpa进行数据库同步
 tk.mybatis进行数据库操作
 
 * idea控制台乱码解决方案：
