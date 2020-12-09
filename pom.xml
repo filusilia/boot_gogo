@@ -29,18 +29,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.4.0</version>
     </parent>
 
     <properties>
-        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.11</java.version>
         <java-build.version>11</java-build.version>
 
-        <mysql.version>8.0.21</mysql.version>
-        <lombok.version>1.18.12</lombok.version>
+        <mysql.version>8.0.22</mysql.version>
+        <lombok.version>1.18.16</lombok.version>
         <tk.mybatis.version>2.1.5</tk.mybatis.version>
         <tk.mybatis-generator.version>1.1.5</tk.mybatis-generator.version>
         <pagehelper.version>1.3.0</pagehelper.version>
@@ -53,14 +53,16 @@
         <poi.version>4.1.2</poi.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-text.version>1.9</commons-text.version>
-        <commons-codec.version>1.14</commons-codec.version>
-        <commons-io.version>2.7</commons-io.version>
-        <commons-net.version>3.6</commons-net.version>
-        <httpclient.version>4.5.12</httpclient.version>
+        <commons-codec.version>1.15</commons-codec.version>
+        <commons-io.version>2.8.0</commons-io.version>
+        <commons-net.version>3.7.2</commons-net.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <UserAgentUtils.version>1.21</UserAgentUtils.version>
         <dom4j.version>2.1.3</dom4j.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
-        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
+        <hibernate-validator.version>7.0.0.CR1</hibernate-validator.version>
+        <oshi-core.version>5.3.6</oshi-core.version>
     </properties>
 
 
@@ -190,6 +192,12 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${UserAgentUtils.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.dom4j/dom4j -->
             <dependency>
                 <groupId>org.dom4j</groupId>
@@ -207,6 +215,12 @@
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.github.oshi/oshi-core -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi-core.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
