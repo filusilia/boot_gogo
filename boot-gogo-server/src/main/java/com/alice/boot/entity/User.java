@@ -26,6 +26,12 @@ public class User implements Serializable {
     private Long id;
 
     /**
+     * 用户编号
+     */
+    @Column(name = "user_code", length = 100, columnDefinition = "varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '用户编号'")
+    private String userCode;
+
+    /**
      * 用户名
      */
     @Column(name = "username", length = 100, columnDefinition = "varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '用户名'")
@@ -40,8 +46,8 @@ public class User implements Serializable {
     /**
      * 昵称
      */
-    @Column(name = "nick_name", length = 100, columnDefinition = "varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '昵称'")
-    private String nickName;
+    @Column(name = "nickname", length = 100, columnDefinition = "varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '昵称'")
+    private String nickname;
 
     /**
      * email

@@ -1,7 +1,6 @@
 package com.alice.boot.common.result;
 
 
-import com.alice.boot.common.Constants;
 import com.alice.boot.common.enums.ResultCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,8 +17,8 @@ import java.io.Serializable;
 @ToString
 @Getter
 public class ResultResponse<T> implements Serializable {
-    private static final long serialVersionUID = -6592548838615372080L;
-    private final String APIVersion = Constants.VERSION;
+    private static final long serialVersionUID = 1L;
+//    private final String APIVersion = Constants.VERSION;
     private String code;
     private String message;
     private T data;

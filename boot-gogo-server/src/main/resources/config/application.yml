@@ -22,7 +22,7 @@ spring:
 mapper:
   mappers: tk.mybatis.mapper.common.Mapper
   not-empty: false
-  identity: DB2
+  identity: mysql
 pagehelper:
   helperDialect: mysql
   reasonable: true

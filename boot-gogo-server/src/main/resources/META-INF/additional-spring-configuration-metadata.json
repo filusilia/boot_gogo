@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "info.app.name",
+      "type": "java.lang.String",
+      "description": "app名称."
+    },
+    {
+      "name": "info.app.description",
+      "type": "java.lang.String",
+      "description": "项目描述."
+    },
+    {
+      "name": "info.app.version",
+      "type": "java.lang.String",
+      "description": "项目版本."
+    },
+    {
+      "name": "info.app.encoding",
+      "type": "java.lang.String",
+      "description": "项目编码."
+    },
+    {
+      "name": "info.app.java.version",
+      "type": "java.lang.String",
+      "description": "项目Java版本."
+    }
+  ] }
