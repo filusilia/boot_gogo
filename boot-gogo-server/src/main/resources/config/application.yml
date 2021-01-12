@@ -19,6 +19,13 @@ spring:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+springfox:
+  documentation:
+    enabled: on
+    #    swagger-ui:
+    #      兼容性考虑,为swagger增加一层跳转的url
+#      base-url: /swaggerDoc
+
 mapper:
   mappers: tk.mybatis.mapper.common.Mapper
   not-empty: false

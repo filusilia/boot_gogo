@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="log.path" value="/app/alice/gogo/logs/" />
+    <springProfile name="dev">
+        <property name="log.path" value="/app/alice/gogo/logs/"/>
+    </springProfile>
+    <springProfile name="test">
+        <property name="log.path" value="/app/alice/gogo/logs/"/>
+    </springProfile>
+    <springProfile name="prod">
+        <property name="log.path" value="/app/alice/gogo/logs/"/>
+    </springProfile>
     <property name="log.file" value="go-server" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">

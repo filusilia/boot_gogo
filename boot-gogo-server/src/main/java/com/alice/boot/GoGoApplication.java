@@ -7,12 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 /**
  * @author Aozaki on 2020/09/01.
  * @version 1.0
  * @since 1.0
  */
+@EnableOpenApi
 @SpringBootApplication
 @EnableConfigurationProperties
 @ServletComponentScan

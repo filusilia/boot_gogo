@@ -39,14 +39,14 @@ public class MybatisCustomInterceptor implements Interceptor {
                 fieldCreate.setAccessible(true);
                 fieldCreate.set(object, now);
             } catch (NoSuchFieldException e) {
-                log.debug("not found field `dateCreated` skip interceptor");
+                log.debug("not found field `createTime` skip interceptor");
             }
             try {
                 Field fieldUpdate = object.getClass().getDeclaredField("updateTime");
                 fieldUpdate.setAccessible(true);
                 fieldUpdate.set(object, now);
             } catch (Exception e) {
-                log.debug("not found field `lastUpdated`, skip interceptor");
+                log.debug("not found field `updateTime`, skip interceptor");
             }
         } else {
             if (SqlCommandType.UPDATE.equals(sqlCommandType)) {
@@ -56,7 +56,7 @@ public class MybatisCustomInterceptor implements Interceptor {
                     fieldUpdate.setAccessible(true);
                     fieldUpdate.set(object, new Date());
                 } catch (NoSuchFieldException e) {
-                    log.debug("not found field `lastUpdated`, skip interceptor");
+                    log.debug("not found field `updateTime`, skip interceptor");
                 }
             }
         }
