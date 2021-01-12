@@ -36,8 +36,8 @@
 
 ## 0.1.Beta
 
-使用springboot2.3
-tk.mybatis进行数据库操作
+1. 使用springboot2.4
+2. tk.mybatis进行数据库操作
 
 * idea控制台乱码解决方案：
     1. idea->help->edit custom vm option ,添加`-Dfile.encoding=UTF-8`
